@@ -11,12 +11,14 @@ export function buyProduct(productId: string): void {
     if (product.price.toString() != context.attachedDeposit.toString()) {
         throw new Error("attached deposit should be greater than the product's price");
     }
-    if (product.available > 0){
+    if (product.available <= 0){
+        throw new Error("Product stock is over")
+    }
+
     ContractPromiseBatch.create(product.owner).transfer(context.attachedDeposit);
     product.incrementSoldAmount();
     product.decreaseAvailableAmount();
     productsStorage.set(product.id, product);
-    }
 }
 
 /* to add more available products using @ammount as input */
@@ -25,7 +27,11 @@ export function addAvailableProduct(productId: string, ammount: u32): void {
     if (product == null) {
       throw new Error("product not found");
     }
-    product.available = product.available + ammount; // adding the inputed ammount
+    if (product.owner != context.sender.toString()) {
+        throw new Error("You don't have permission to increase quantity");
+    }
+
+    product.increaseAvailableAmount(ammount); // adding the inputed ammount
     productsStorage.set(product.id, product);
   }
 /* to reduce the number of available products using @ammount as input*/
@@ -34,8 +40,10 @@ export function addAvailableProduct(productId: string, ammount: u32): void {
     if (product == null) {
       throw new Error("product not found");
     }
-    product.available = product.available - ammount;// removing the inputed ammount
-    
+      if (product.owner != context.sender.toString()) {
+          throw new Error("You don't have permission to reduce quantity");
+      }
+    product.decreaseAvailableAmount(ammount);// removing the inputed ammount
     productsStorage.set(product.id, product);
   }
 

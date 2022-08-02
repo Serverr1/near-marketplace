@@ -101,11 +101,11 @@ const AddProduct = ({ save }) => {
 
             <FloatingLabel
               controlId="enter number of available product"
-              label="Price"
+              label="Available Quantity"
               className="mb-3"
             >
               <Form.Control
-                type="text"
+                type="number"
                 placeholder="available"
                 onChange={(e) => {
                   setAvailable(e.target.value);

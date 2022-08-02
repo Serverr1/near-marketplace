@@ -34,13 +34,17 @@ export class Product {
         this.sold = this.sold + 1;
     }
 
-    public decreaseAvailableAmount(): void {
-        this.available = this.available - 1;
+    public decreaseAvailableAmount(number: u32 = 1): void {
+        if(this.available < number){
+            number = this.available;
+        }
+        this.available = this.available - number;
     }
 
-    
-       
+    public increaseAvailableAmount(number: u32 = 1): void {
+        this.available = this.available + number;
     }
+}
 
 
 /**

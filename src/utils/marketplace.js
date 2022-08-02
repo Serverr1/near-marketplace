@@ -6,6 +6,7 @@ const GAS = 100000000000000;
 export function createProduct(product) {
   product.id = uuid4();
   product.price = parseNearAmount(product.price + "");
+  product.available = Number(product.available);
   return window.contract.setProduct({ product });
 }
 

@@ -34,12 +34,13 @@ const Products = () => {
   });
 
   const addProduct = async (data) => {
+    setLoading(true);
+
     try {
-      setLoading(true);
-      createProduct(data).then((resp) => {
+      await createProduct(data).then((resp) => {
+        toast(<NotificationSuccess text="Product added successfully." />);
         getProducts();
       });
-      toast(<NotificationSuccess text="Product added successfully." />);
     } catch (error) {
       console.log({ error });
       toast(<NotificationError text="Failed to create a product." />);
@@ -49,12 +50,13 @@ const Products = () => {
   };
 
   const addAvailable = async (_Id, _ammount) => {
+    setLoading(true);
+
     try {
-      setLoading(true);
-      addAvailableProduct(_Id, _ammount).then((resp) => {
+      await addAvailableProduct(_Id, _ammount).then((resp) => {
+        toast(<NotificationSuccess text="Inventory added successfully." />);
         getProducts();
       });
-      toast(<NotificationSuccess text="Inventory added successfully." />);
     } catch (error) {
       console.log({ error });
       toast(<NotificationError text="Failed to add more inventory." />);
@@ -65,12 +67,13 @@ const Products = () => {
 
 
   const reduceAvailable = async (_Id, _ammount) => {
+    setLoading(true);
+
     try {
-      setLoading(true);
-      reduceAvailableProduct(_Id, _ammount).then((resp) => {
+      await reduceAvailableProduct(_Id, _ammount).then((resp) => {
+        toast(<NotificationSuccess text="Products removed successfully." />);
         getProducts();
       });
-      toast(<NotificationSuccess text="Products removed successfully." />);
     } catch (error) {
       console.log({ error });
       toast(<NotificationError text="Failed to remove a products." />);
@@ -85,8 +88,10 @@ const Products = () => {
       await buyProduct({
         id,
         price,
-      }).then((resp) => getProducts());
-      toast(<NotificationSuccess text="Product bought successfully" />);
+      }).then((resp) =>{
+        toast(<NotificationSuccess text="Product bought successfully" />);
+        getProducts()
+      });
     } catch (error) {
       toast(<NotificationError text="Failed to purchase product." />);
     } finally {
