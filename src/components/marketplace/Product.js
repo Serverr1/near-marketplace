@@ -27,7 +27,7 @@ const Product = ({ product, buy, addAvailable, reduceAvailable, isOwner}) => {
     <Col key={id}>
       <Card className=" h-100">
         <Card.Header>
-          <Stack direction="horizontal" gap={2}>
+          <Stack direction="horizontal" gap={3}>
             <span className="font-monospace text-secondary">{owner}</span>
             <Badge bg="secondary" className="ms-auto">
               {sold} Sold
